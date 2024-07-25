@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  mysql97lyr1:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: redmine97lyrdb
+      MYSQL_USER: yul
+      MYSQL_PASSWORD: yulpass
+    volumes:
+      - mysql97lyrvol1:/var/lib/mysql
+    networks:
+      - redmine97lyrnet1
+
+  redmine97lyr1:
+    depends_on:
+      - mysql97lyr1
+    image: redmine
+    environment:
+      REDMINE_DB_MYSQL: mysql97lyr1
+      REDMINE_DB_DATABASE: redmine97lyrdb
+      REDMINE_DB_USERNAME: yul
+      REDMINE_DB_PASSWORD: yulpass
+    volumes:
+      - redmine97lyrvol1:/usr/src/redmine/files
+    ports:
+      - 8090:3000
+    networks:
+      - redmine97lyrnet1
+
+volumes:
+  mysql97lyrvol1:
+  redmine97lyrvol1:
+
+networks:
+  redmine97lyrnet1:
