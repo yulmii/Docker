@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  mariadb97lyr2:
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress97lyrdb2
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress_password
+    volumes:
+      - mysql97lyrvol2:/var/lib/mysql
+    networks:
+      - wordpress97lyrnet2
+
+  wordpress97lyr2:
+    image: wordpress:latest
+    environment:
+      WORDPRESS_DB_HOST: mariadb97lyr2
+      WORDPRESS_DB_NAME: wordpress97lyrdb2
+      WORDPRESS_DB_USER: yul
+      WORDPRESS_DB_PASSWORD: yulpass
+    depends_on:
+      - mariadb97lyr2
+    volumes:
+      - wordpress97lyrvol2:/var/www/html
+    ports:
+      - "8091:80"
+    networks:
+      - wordpress97lyrnet2
+
+volumes:
+  mysql97lyrvol2:
+  wordpress97lyrvol2:
+
+networks:
+  wordpress97lyrnet2:
